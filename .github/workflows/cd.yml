@@ -32,5 +32,11 @@ jobs:
       - name: Run Docker Container
         env: 
           DOCKER_USER: ${{ secrets.DOCKER_USER_NAME }}
-        run: sudo docker run -it -d -p 8001:8001 --name bikeshare-api-container $DOCKER_USER/bikeshare-api:latest
-
+        run: |
+          PORT=8001
+          while lsof -i:$PORT; do
+            echo "Port $PORT is in use. Trying the next port..."
+            PORT=$((PORT+1))
+          done
+          echo "Using port $PORT."
+          sudo docker run -it -d -p $PORT:8001 --name bikeshare-api-container $DOCKER_USER/bikeshare-api:latest
