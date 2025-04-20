@@ -16,7 +16,16 @@ jobs:
         env: 
           DOCKER_USER: ${{ secrets.DOCKER_USER_NAME }}
         run: sudo docker pull $DOCKER_USER/bikeshare-api:latest
-    
+        
+      - name: Free Port 8001 if in use
+        run: |
+          if lsof -i:8001; then
+            echo "Port 8001 is in use. Killing the process using it..."
+            sudo fuser -k 8001/tcp
+          else
+            echo "Port 8001 is free."
+          fi
+      
       - name: Delete Old Docker Container
         run: sudo docker rm -f bikeshare-api-container || true
     
