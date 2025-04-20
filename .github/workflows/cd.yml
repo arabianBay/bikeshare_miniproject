@@ -39,4 +39,4 @@ jobs:
             PORT=$((PORT+1))
           done
           echo "Using port $PORT."
-          sudo docker run -it -d -p 8003:8003 --name bikeshare-api-container $DOCKER_USER/bikeshare-api:latest
+          sudo docker run -it -d -p 8001:8001 --name bikeshare-api-container $DOCKER_USER/bikeshare-api:latest
